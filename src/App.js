@@ -1,46 +1,20 @@
-import { useState, useEffect } from "react";
-import api from './service/api'
+import { Route, BrowserRouter, Switch } from 'react-router-dom'
 
-import LoadImage from './assets/giphy.webp'
-import LogoRick from './assets/logo.png'
+import Home from "./Pages/Home/Home";
+import Login from "./Pages/Login/Login";
+import PrivateRoute from './privateroutes';
+
 
 function App() {
-  const [rick, setRick] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    api.get("/character").then(
-      res => {
-        setRick(res.data.results)
-        setIsLoading(false)
-      }
-    )
-  }, [])
-  if (isLoading) {
-    return (
-      <div>
-        <img src={LoadImage} alt="loading" />
-      </div>
-    )
-  }
   return (
-    <div className="content">
-      <div className="container">
-
-        <div className="logo-content">
-          <img src={LogoRick} alt="Logo"  height="100px" width="auto"/>
-        </div>
-        <div className="cards-content">
-          { rick.map( (item, index) => (
-            <div key={index} className="card">
-              <img src={item.image} alt={item.name} width="180px" height="auto"/>
-              <h4>{item.name}</h4>
-            </div>
-          )) }
-        </div>
-      </div>
-    </div>
-  )
+    <BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <Route exact path="/home" component={Home} />
+          
+        </Switch>
+    </BrowserRouter>
+  );
 }
 
 export default App;
